@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>HIT ME — The Encrypted Beat Line</title>
+<style>
+  :root{--gold:#d4af37;--red:#e01b1b;--green:#2ecc71;--bg:#0a0a0f;--panel:#14141d;--line:#262633;--txt:#f2f2f5;--dim:#9a9aad}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--txt);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;min-height:100vh}
+  .wrap{max-width:520px;margin:0 auto;padding:22px 16px 44px}
+  .brand{text-align:center;padding:10px 0 2px}
+  .brand h1{font-size:62px;letter-spacing:2px;line-height:1}
+  .brand h1 span{color:var(--red)}
+  .brand p{color:var(--gold);letter-spacing:3px;font-size:11px;margin-top:6px;text-transform:uppercase}
+  .enc{display:flex;align-items:center;justify-content:center;gap:7px;margin:14px auto 4px;background:#0f1f16;border:1px solid #1e4630;color:#7fe6a8;border-radius:99px;padding:7px 14px;font-size:12.5px;width:fit-content}
+  .sub{text-align:center;color:var(--dim);font-size:13px;margin-top:8px;line-height:1.55}
+  .callbtn{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;margin-top:20px;background:var(--green);color:#06280f;border:0;border-radius:99px;padding:18px;font-size:20px;font-weight:800;letter-spacing:1px;cursor:pointer;box-shadow:0 6px 30px rgba(46,204,113,.35)}
+  .callbtn:active{transform:scale(.98)}
+  .hidden{display:none!important}
+  .callhead{text-align:center;margin-top:6px}
+  .callhead .who{font-size:30px;font-weight:800;letter-spacing:1px}
+  .callhead .meta{color:#7fe6a8;font-size:13px;margin-top:3px}
+  .callhead .timer{font-size:19px;color:var(--txt);margin-top:2px;font-variant-numeric:tabular-nums}
+  .now{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px;margin-top:16px}
+  .now .lbl{color:var(--dim);font-size:11px;letter-spacing:2px;text-transform:uppercase}
+  .now .title{font-size:24px;font-weight:700;margin:5px 0 2px}
+  .now .by{color:var(--gold);font-size:13.5px}
+  .bar{height:8px;background:#23232f;border-radius:99px;margin:14px 0 6px;overflow:hidden;cursor:pointer}
+  .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--red),var(--gold))}
+  .times{display:flex;justify-content:space-between;color:var(--dim);font-size:12px}
+  .pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
+  .key{background:var(--panel);border:1px solid var(--line);border-radius:50%;aspect-ratio:1/1;max-width:96px;width:100%;margin:0 auto;color:var(--txt);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}
+  .key b{font-size:23px}
+  .key small{color:var(--dim);font-size:9.5px;letter-spacing:1.5px;text-transform:uppercase}
+  .key.live{border-color:var(--gold)}
+  .key.flash{border-color:var(--green);color:#7fe6a8}
+  .key:active{border-color:var(--green)}
+  .endbtn{display:flex;align-items:center;justify-content:center;gap:10px;width:64%;margin:20px auto 0;background:var(--red);color:#fff;border:0;border-radius:99px;padding:15px;font-size:17px;font-weight:800;letter-spacing:1px;cursor:pointer;box-shadow:0 6px 26px rgba(224,27,27,.35)}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px;margin-top:14px;display:none}
+  .panel.open{display:block}
+  .panel h3{font-size:15px;letter-spacing:1px;margin-bottom:8px}
+  .panel p{color:var(--dim);font-size:14px;line-height:1.5}
+  .buybtn{display:block;text-align:center;background:var(--gold);color:#111;font-weight:800;border-radius:10px;padding:13px;margin-top:12px;text-decoration:none}
+  .sess{margin-top:20px}
+  .sess h3{font-size:13px;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-bottom:8px}
+  .sess .row{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding:8px 2px;font-size:14px}
+  .sess .row a{color:var(--gold);text-decoration:none;font-weight:700}
+  .foot{text-align:center;color:var(--dim);font-size:12px;margin-top:26px;line-height:1.65}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand"><h1>HIT <span>ME</span></h1><p>Hitman Music Worldwide</p></div>
+  <div class="enc">🔒 Encrypted line · end-to-end · no carrier, no middleman</div>
+
+  <!-- DIAL SCREEN -->
+  <div id="dialScreen">
+    <p class="sub">This is Korey's private beat line. Tap call and you're on the line with him — all 130 beats play in full, in a real encrypted call.</p>
+    <button class="callbtn" id="callBtn">📞 &nbsp;CALL THE LINE</button>
+    <p class="sub" style="margin-top:14px">On the call: <b style="color:var(--txt)">1</b> skip · <b style="color:var(--txt)">2</b> buy · <b style="color:var(--txt)">3</b> replay · <b style="color:var(--txt)">0</b> message Korey</p>
+  </div>
+
+  <!-- CALL SCREEN -->
+  <div id="callScreen" class="hidden">
+    <div class="callhead">
+      <div class="who">HIT ME</div>
+      <div class="meta">🔒 Encrypted · <span id="counter">Beat – of –</span></div>
+      <div class="timer" id="timer">00:00</div>
+    </div>
+    <div class="now">
+      <div class="lbl">Now Playing On The Line</div>
+      <div class="title" id="title">Connecting…</div>
+      <div class="by">by Korey Da Hitman Robinson</div>
+      <div class="bar" id="bar"><i id="fill"></i></div>
+      <div class="times"><span id="cur">0:00</span><span id="dur">0:00</span></div>
+    </div>
+    <div class="pad">
+      <button class="key live" data-k="1"><b>1</b><small>Skip</small></button>
+      <button class="key live" data-k="2"><b>2</b><small>Buy</small></button>
+      <button class="key live" data-k="3"><b>3</b><small>Replay</small></button>
+      <button class="key" data-k="4"><b>4</b><small>·</small></button>
+      <button class="key" data-k="5"><b>5</b><small>·</small></button>
+      <button class="key" data-k="6"><b>6</b><small>·</small></button>
+      <button class="key" data-k="7"><b>7</b><small>·</small></button>
+      <button class="key" data-k="8"><b>8</b><small>·</small></button>
+      <button class="key" data-k="9"><b>9</b><small>·</small></button>
+      <button class="key" data-k="*"><b>*</b><small>·</small></button>
+      <button class="key live" data-k="0"><b>0</b><small>Message</small></button>
+      <button class="key" data-k="#"><b>#</b><small>·</small></button>
+    </div>
+    <button class="endbtn" id="endBtn">📵 &nbsp;END CALL</button>
+  </div>
+
+  <div class="panel" id="buyPanel">
+    <h3>🛒 BUY THIS BEAT</h3>
+    <p id="buyText"></p>
+    <p style="margin-top:6px">MP3 $30 · WAV $50 · Trackout $100 · Exclusive $1,000</p>
+    <a class="buybtn" href="https://v.gd/XhOWH4" target="_blank" rel="noopener">CHECKOUT — HITMAN MUSIC WORLDWIDE STORE</a>
+  </div>
+  <div class="panel" id="msgPanel">
+    <h3>🎙 LEAVE KOREY A MESSAGE</h3>
+    <p>Messages go straight to Korey himself. Hit the button and talk to him in his DMs — he answers buyers personally.</p>
+    <a class="buybtn" href="https://ig.me/m/dahitman215" target="_blank" rel="noopener">MESSAGE @dahitman215</a>
+  </div>
+  <div class="sess hidden" id="sessWrap">
+    <h3>Your call — beats you heard</h3>
+    <div id="sessRows"></div>
+  </div>
+  <div class="foot">Every beat plays in full. Press 1 to skip, 2 to buy, 3 to replay, 0 to talk to Korey.<br>© Hitman Music Worldwide · HIT ME is a private encrypted line — the link is the only door.</div>
+</div>
+<audio id="au" preload="auto"></audio>
+<script>
+let Q=[], idx=0, heard=[], callStart=null, tickInt=null;
+const au=document.getElementById('au'), $=id=>document.getElementById(id);
+const fmt=s=>{s=Math.max(0,Math.floor(s||0));return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')};
+Q=[{"n": 1, "title": "SOF(FIRE FACE)", "id": "1HmvnbAOUX973MAwDbFdH_0mY8sHUlFXx"}, {"n": 2, "title": "2017 BS", "id": "1iDdA888V3RKmMfs7MIqWOuTihSjHOjpj"}, {"n": 3, "title": "2025 BY @DAHITMAN215", "id": "1aguwfwrkm6XlUO3u1_FM162AYhhhblYD"}, {"n": 4, "title": "4POPSMOKE20", "id": "1M7X0FtiGT_K43inyyiWPuH2bKqLAyPup"}, {"n": 5, "title": "808 - BS - 2019", "id": "1bQbAne00rpICP1u_KGaqIQSTlPPumUox"}, {"n": 6, "title": "A LIL SUMPTIN", "id": "1iIhtCq-rnnkmlh0Hrciycbwl1Ec3tcwD"}, {"n": 7, "title": "A ROSE IS STILL A ROSE 2022", "id": "1J2AN6l_UkgthYtu8qMH7ztpZD9GLZdPu"}, {"n": 8, "title": "AINT NUTHIN CHANGED", "id": "1-B6Bnte6gOLrfLfl6YvDd4RsscOhakCz"}, {"n": 9, "title": "ALL DA THINGS", "id": "1O4VOQzOfBAJKAk2ShHFfLNekohUPcNyw"}, {"n": 10, "title": "ALREADY THO", "id": "1lFqT-3nmdgr-YzU7rCTJkIf0FyWSYOcu"}, {"n": 11, "title": "AMERICAN GIRLS", "id": "1I432iIYJkm7TQH3mRtpGv-UNgsAka0Kc"}, {"n": 12, "title": "AROUND DA WORLD", "id": "1YnBPNst8A_wf9zabBkyGqpd8nhj_njsO"}, {"n": 13, "title": "Affidavits And Writs", "id": "1oRgi7fCwPfg3_XM4H5C18q6sTzB5bThi"}, {"n": 14, "title": "BACKED BY GOLD", "id": "1DeHm28iJzJPcpkX0xDhmI1yssFzX4I3I"}, {"n": 15, "title": "BE FREE", "id": "1aTZj1PNJEeJ7COXGhStjoz1ywla_RGZ4"}, {"n": 16, "title": "BEQUEST", "id": "13t1Dsee_2xG2eSHW1--BSocSeBB0WOSL"}, {"n": 17, "title": "BOOMX4", "id": "1kocxncd7TP3xMa_tYwOKpTBe5-qg82YQ"}, {"n": 18, "title": "BUMPS BY @DAHITMAN215", "id": "1xKqNlNSt41nSkxML-HhFaN6fW5H_6drF"}, {"n": 19, "title": "BXG RXGHTEOUS", "id": "1F__dRsAJkx-vT44urO8BlCfmktLxnJIH"}, {"n": 20, "title": "CARRY", "id": "123P_UAWyrtljRvIDFCQyT_kCAtMOJPxY"}, {"n": 21, "title": "CITY", "id": "155_AU6teDgyTCPOT8MLfhAoC6mHQ6XP1"}, {"n": 22, "title": "CUANDO VOLVERAS", "id": "13LINuM-TbkfgwulbhBCuLgaCtWvbRoc9"}, {"n": 23, "title": "CYBXR BXLLY", "id": "1GfpZl5bJ4PeiJ4O5JEr-NmZml3F8F6yF"}, {"n": 24, "title": "DA MOOD", "id": "1pKhtXGrljFIL3fkPtHcRFUhS_OW3BNGn"}, {"n": 25, "title": "DEEBO", "id": "1PgU4yRhYn8kwbFR32678-jkF5a2uGp3n"}, {"n": 26, "title": "DMX BEAT BY @DAHITMAN215", "id": "1zBdyirvK9Jpuldn0niTiVCmzsUYoRvuI"}, {"n": 27, "title": "EARTH GANG", "id": "1VQhDA3KCETqstvyWzPLt08Pe-HXbNNvQ"}, {"n": 28, "title": "EL MAESTRO", "id": "1ZTyltEZArLLqtEdaRMIEc7WhKDl_IRzz"}, {"n": 29, "title": "EMO2020", "id": "1TxjmQz9K0K3yHOj9fkELFQV8wR8OHvm2"}, {"n": 30, "title": "ENDOWMENT", "id": "1nJZc8JWSVoK7Cc_LGSb7fQfZRZURKfb0"}, {"n": 31, "title": "FANTASY2021", "id": "1SAe6CFshEjWh34lxwD3EWGWvGvEmuyxA"}, {"n": 32, "title": "FOMFF", "id": "117RywtEpf9cR3ZX7tgPtJqoewc-WPbmi"}, {"n": 33, "title": "FOUNDATION", "id": "1bA4tvLk8KKkkOZksXq13rPto4jYEmRkF"}, {"n": 34, "title": "FXCK XT", "id": "1pqQR3scZ340vJc5yNZGAotgwGqmEzf35"}, {"n": 35, "title": "Forgotten", "id": "1fTJmfuzzKr8YrhgVxXIhQ37lsQbrn-Fu"}, {"n": 36, "title": "FrostBite", "id": "1Y3QGV69dv1DOCJOlZwpehrD_qwjBt-yU"}, {"n": 37, "title": "GLITCH2", "id": "142KZo3z2Kt82uMezzZrpD96YOfL12gKE"}, {"n": 38, "title": "GLOBAL", "id": "1f5GDxJgeD2aJmVCmriawLlGjd0Iyw-um"}, {"n": 39, "title": "GRND", "id": "1ec-fFWFE0j8kccEVLxupbXl4EvUUNf0V"}, {"n": 40, "title": "GXDLY", "id": "174TMPvn2GkpnUC8Na70fBxFlL57q_8f4"}, {"n": 41, "title": "GXXDxNRG", "id": "1miBuZJzxxstEjpHRJnsv-0mAa-_mHBt1"}, {"n": 42, "title": "HARDER", "id": "1Ngr-jpmERKYf81HEj1XhExFvabpXlxl3"}, {"n": 43, "title": "HITMAN13", "id": "1oDudvCeRJxt-tOrWza8lhCVC_WtUIjPs"}, {"n": 44, "title": "HITSHIT BY @DAHITMAN215", "id": "1BGhx9c-v7BHQlKeGrWjwqN075PUjUuvu"}, {"n": 45, "title": "HONEY GROW JAWN BY KOREY @DAHITMAN215", "id": "1gCsDTbOojhLH8G0Ou3UkwXFTYPXXj-PN"}, {"n": 46, "title": "HONEY HOTT", "id": "1h8_m5ewbvQ32l9ggyIyY-9SxwM4fdlqh"}, {"n": 47, "title": "HOPE2021", "id": "1cLsNJWA9-rBfHZVkcRxwcRhS9mTcrbOE"}, {"n": 48, "title": "IDKLMAO", "id": "1EqDkgdmjx6igxK2ZqHAswDBln1NL1irQ"}, {"n": 49, "title": "IN DA FLESH", "id": "1NOhGGTeRSKXodiS4RMoqKB6d-JchwV43"}, {"n": 50, "title": "IN THIS WORLD", "id": "17m0PZ9TVMVLWsKuem1q_U5B9ti0cJ92T"}, {"n": 51, "title": "JESSIES BXTCH", "id": "1qkbBv0xZUAT1cib4v3e3A45ncnrqk5B4"}, {"n": 52, "title": "JESUS IS LOVE", "id": "1GXAGgkCzz8YKfu52ajK37dnjtndOoxlT"}, {"n": 53, "title": "JON B", "id": "1FYxZCn9p1cPQnDCHLatR0K8B9MIWDZlM"}, {"n": 54, "title": "JOURNEY", "id": "1iYOKNa-QOk7EjGnMfSvs6EvVRmATllJ_"}, {"n": 55, "title": "JOURNEY2021", "id": "1msSpdLUP5UxDMx6YO2nACbUdo72Dob-n"}, {"n": 56, "title": "KLR31 SNIPPET", "id": "18fz-DR9JBCwAUPakS1XrD1k4C-pF9fI3"}, {"n": 57, "title": "KLR31", "id": "14jF4-WCDsTWbMIfZpBNiA588YjJxRzl2"}, {"n": 58, "title": "King Dizzle 2026", "id": "1ytDWU9VoB827Z11bEcH7nsDuKygCK24I"}, {"n": 59, "title": "LA CEIBA MI AMOR", "id": "1GY8vlv6GFme_1ffSU-J1meI2J-M-KLCK"}, {"n": 60, "title": "LADY2020", "id": "1Gzur8FPFEsypMlEKSMUObGwcyB-wvZmH"}, {"n": 61, "title": "LDLH2019", "id": "1IK6wBxALzHN3WAiThfDgW5_iQgk2CYTg"}, {"n": 62, "title": "LEGACY SNIP", "id": "1VMH5MheDZ4-fRv322B9e7bVnolECVfNh"}, {"n": 63, "title": "LEGACY", "id": "14ceTTk6o-laDJo1Y53zFWHIW4VnnHwWC"}, {"n": 64, "title": "LOOKIN 4 A TRICK", "id": "1mIWgI05rXfw22G5vUGR_QziQl_qW9r4E"}, {"n": 65, "title": "LOSE CONTROL", "id": "1DZIUAEh7KELqBSE0Cv70czSLnOyoyXyQ"}, {"n": 66, "title": "LOST AND TURNT", "id": "12WkJU2RCrWlMb2rr4r09VtfKl78JLsqh"}, {"n": 67, "title": "LTK2014", "id": "1M3VCGU6o_y0N8C7ENzsMyRZg5DTgK4AN"}, {"n": 68, "title": "LXCKXD DXWN", "id": "1CAg6HwTqMi448Zh9bo2cFTxbKp5UkPVR"}, {"n": 69, "title": "LXVXN 2018", "id": "1WF-w2ztieoUupdmzcnN7OseUMtKbwKMM"}, {"n": 70, "title": "MAN OF THE NIGHT", "id": "15YdLFrqEP59Citquzg1mKYGj0aR6TCls"}, {"n": 71, "title": "MANGO HABENERO POR FAVOR", "id": "18hbZgroiH-v9Tncgp3BE5H9P-jrEXpZ_"}, {"n": 72, "title": "MIAMI", "id": "1wOrneo1AyYXbGC1G3pqULU5q7Jwvu1Rj"}, {"n": 73, "title": "MOOR OR LESS", "id": "1AnjP7CaXF8aXA323G0FqfV3cAbHCNAK9"}, {"n": 74, "title": "MOVE2020", "id": "1c2oy6frZS-Ci7vb2xjErvpEfEBLJj6Nz"}, {"n": 75, "title": "NEW NORMAL", "id": "146TbEdvkAjp5DnYx6-VAqMUe6_5KR-mM"}, {"n": 76, "title": "NIGHTSHADE", "id": "1BlT_JvHYKbbm_INlgnnhD8LLFii_Llqj"}, {"n": 77, "title": "NO", "id": "1MzeZeifgVzDfS15N8lbDbq4Llhel9jL_"}, {"n": 78, "title": "Nii2FREEYAMIND", "id": "1ADBd0d3LpkMpjkZO_pd3cL4orfMq7URC"}, {"n": 79, "title": "NyghtLyphe", "id": "1ETeSDo0sH6HyQW5mNvgmHrlXvXvF2M2y"}, {"n": 80, "title": "OFFDOMETOP2019", "id": "1u3L_lRuC1YYz_qWR5noBUeVbsLu-3I3G"}, {"n": 81, "title": "OG13", "id": "1lD1RvSJ_PgnIJy1meRfmfWIc9nBMn0Va"}, {"n": 82, "title": "OMM2021", "id": "1-E1E0ZplXghlTiWmXyEcYVUc6s0PnT96"}, {"n": 83, "title": "OPERATING AGREEMENT", "id": "1pORm86VO4DIZdIwdSWWtiWNUftd_hDlJ"}, {"n": 84, "title": "PABLO PROBLEMO", "id": "1KOjSCUynIqjqqBgwrutJ1JTaAIsHVbvy"}, {"n": 85, "title": "PAIN", "id": "1MBFj5NQyX14xGN8YOp29CSdsKv0IvCIo"}, {"n": 86, "title": "PATTI", "id": "1lOXlVc_K2jIpTqeBr3E_5ZBn2achH6vu"}, {"n": 87, "title": "PAYBACK TOTAL", "id": "10V9rSMwVY182lHT2dZLEbieFhrh_nPGk"}, {"n": 88, "title": "PEACH COBBLER", "id": "19hG1V1E41Ibe0Sq4GrG-UgMtPXZUAh2y"}, {"n": 89, "title": "PEACHES By NIA (Produced by DAHITMAN215)", "id": "1wmDhW1qtJdmpXfSonownBtdDA7_o4qy5"}, {"n": 90, "title": "PHOENIX(DONT FEED DA FIYA)", "id": "1xEa6boB4zJnFaE18b5Kf9if2pNGymgrO"}, {"n": 91, "title": "PIKA", "id": "1oh5zwmDOtU3ObVBPxLVeNy1mkp9bR5Xt"}, {"n": 92, "title": "POLICE WOMAN 2K16", "id": "1WPcd_s-buIvsV9fzVDUBLOQGvDjTL-cu"}, {"n": 93, "title": "POR QUE TE VAS", "id": "1ayxTqYeYIfgxyf_hlc2HsTorP2F3F9wh"}, {"n": 94, "title": "PRESSURE", "id": "1Td2dJlle29GCLJlRCiqA-9BEGMQddK0U"}, {"n": 95, "title": "PRINCIPLES", "id": "1_lqerWhPT7-E-_VptYqGNQAq2lHUYIz-"}, {"n": 96, "title": "PROJECT X", "id": "1WSNDaVcyyBYPSMjR8Q-snubr6YXe-QKc"}, {"n": 97, "title": "PROPHECY", "id": "1fg-Wddu38iQYK_1U2tfg9hIrg9upUIcO"}, {"n": 98, "title": "PUDDY TATT", "id": "1l5elHBagtVXKNHnTvehb2tW32lDtb846"}, {"n": 99, "title": "Queen", "id": "1lypyt4HA1pvjAwlVME7A-Hs--rHDTGW1"}, {"n": 100, "title": "RAE OF LIGHT", "id": "1VhZzVNuKcXqMQ8yXUdFp1Us7DW3g2PQT"}, {"n": 101, "title": "RAPTURE", "id": "1a5QG9ECg0cyD6P3ZIgMJcaI9rZCFuhhX"}, {"n": 102, "title": "RAW1988", "id": "1AcH1ABwiwB4n9yqkKlPHJBCjqHzPcI08"}, {"n": 103, "title": "REAL", "id": "1Z9LxCBFZzDTJd0r2JqNngspyRrSE39QL"}, {"n": 104, "title": "RED ROOF INN", "id": "1gTgNgCGRBrHTTpeHRX0CcI-xaTxEB6KZ"}, {"n": 105, "title": "RESET2020", "id": "1kplIbqRZewntuAspC9W8CAtsj9wTrtJs"}, {"n": 106, "title": "REVELATIONS", "id": "1_PfDCKLXl_yd_daGoDkjHEZQZR0W9Afa"}, {"n": 107, "title": "RKELLY JAWN", "id": "1ENh5A6YUk_h4Bz7xgS0d_v-0-J3Y0sRn"}, {"n": 108, "title": "S.O.R(STREETZ OF RAGE)", "id": "1V5LguKAe3GQazx57IV1ev9n9WrBTTA_b"}, {"n": 109, "title": "SAY A LIL PRAYER", "id": "1WKzgG171jif58s9OX__2ZGfrI-B0Qnz4"}, {"n": 110, "title": "SHE WANNA SHAKE IT", "id": "1-mbjK3yEqLcTwsVYHLa4p0HCRPsX2cIy"}, {"n": 111, "title": "SICK SNIPPET", "id": "1K3oBjszodj36CyI9Kv9cgjqHVCkYvUH9"}, {"n": 112, "title": "SICK", "id": "1-PEBdNqEPR5hAebzilixWK34bevKfhJK"}, {"n": 113, "title": "SLOW TEMPO", "id": "1UM5IdsGCMUmA-lnRbsnFRKizC83A9VGk"}, {"n": 114, "title": "SMFH", "id": "14xgpaDAS4exr62Kv2XMITvqj3-FtbZ0w"}, {"n": 115, "title": "SMILING FACES", "id": "1X3ZiXbPG3lQBzbfIPyQdGSQz72aGrfSF"}, {"n": 116, "title": "SMOOTHSHITDIZZLE", "id": "1S8aciPsKevDZssrg_sBxOD7n92IXMtLR"}, {"n": 117, "title": "START IT UP", "id": "16OBmLD7ON2cr-u4zzMfvUIWGLYu9PZl9"}, {"n": 118, "title": "So Serious", "id": "1T_hg-LmEvVRcHyJz0Efxn4KoROnx1b-1"}, {"n": 119, "title": "THIS AINT THAT", "id": "1xyLFnpXFdw4GeoE8RrvXQaNh9SPjaVb-"}, {"n": 120, "title": "TIME", "id": "1_hNSsRN8LpxbiV8lyLDTZnoCDwT_jxJ0"}, {"n": 121, "title": "TSHANGRI LA SHUN", "id": "1IDX7nWoJ7ERpY0JbwBd2MsOG9Vib8YdC"}, {"n": 122, "title": "Tort And Heir", "id": "1S9gYyOm0vceEX6qIFdBFJZ4ghcDInGJC"}, {"n": 123, "title": "UPSET", "id": "1A0cB0GOGiVjliiuogIOvR6PGuGCpQrMp"}, {"n": 124, "title": "VIO", "id": "1GSMuOu1PAKYUyde3V5lT3ir1ohUYSF_J"}, {"n": 125, "title": "VOOM", "id": "1Wf7Ef_SOt2ukYWOD0ItTucmAxjB7Any5"}, {"n": 126, "title": "WALKED OUT", "id": "16iCcQzeJ9vf9ohVVjMUxqSHkeJvr1Mcr"}, {"n": 127, "title": "X", "id": "15uAwVpEnDYcX92tzDsbJ9Esk84SUmq9c"}, {"n": 128, "title": "XAIX", "id": "1nt5BS_v4n4Xljv5avK5n_BBBJvM9Wiqp"}, {"n": 129, "title": "YEAR 19", "id": "1j5dKcWXDIWSnzOoi7GT6ZHpYbCLTToiS"}, {"n": 130, "title": "YES LAWD", "id": "1IJ2kTgKEYey4IIYY3pbleoqmsmaHdapK"}];load(0);
+function load(i){
+  if(!Q.length)return;
+  idx=((i%Q.length)+Q.length)%Q.length;
+  const b=Q[idx];
+  $('title').textContent=b.title;
+  $('counter').textContent='Beat '+(idx+1)+' of '+Q.length;
+  au.src='https://drive.google.com/uc?export=download&id='+b.id;
+  if(callStart) au.play().catch(()=>{});
+  if(!heard.find(h=>h.n===b.n)){heard.push(b);renderSess();}
+  if('mediaSession' in navigator){navigator.mediaSession.metadata=new MediaMetadata({title:b.title,artist:'Korey Da Hitman Robinson',album:'HIT ME — the encrypted beat line'});}
+}
+function renderSess(){
+  if(!heard.length)return;
+  $('sessWrap').classList.remove('hidden');
+  $('sessRows').innerHTML=heard.map(h=>'<div class="row"><span>'+h.n+'. '+h.title+'</span><a href="https://v.gd/XhOWH4" target="_blank" rel="noopener">BUY</a></div>').join('');
+}
+$('callBtn').onclick=()=>{
+  $('dialScreen').classList.add('hidden');
+  $('callScreen').classList.remove('hidden');
+  callStart=Date.now();
+  tickInt=setInterval(()=>{const s=Math.floor((Date.now()-callStart)/1000);$('timer').textContent=String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');},500);
+  if(Q.length){ if(!au.src) load(0); au.play().catch(()=>{}); }
+  window.scrollTo({top:0,behavior:'smooth'});
+};
+$('endBtn').onclick=()=>{
+  au.pause(); callStart=null; clearInterval(tickInt);
+  $('callScreen').classList.add('hidden');
+  $('dialScreen').classList.remove('hidden');
+  $('callBtn').innerHTML='📞 &nbsp;CALL BACK';
+  window.scrollTo({top:0,behavior:'smooth'});
+};
+au.addEventListener('ended',()=>{ if(callStart) load(idx+1); });
+au.addEventListener('timeupdate',()=>{ if(au.duration){$('fill').style.width=(au.currentTime/au.duration*100)+'%';} $('cur').textContent=fmt(au.currentTime); $('dur').textContent=fmt(au.duration); });
+$('bar').onclick=e=>{ const r=e.currentTarget.getBoundingClientRect(); if(au.duration) au.currentTime=au.duration*(e.clientX-r.left)/r.width; };
+function key(k,el){
+  if(el){el.classList.add('flash');setTimeout(()=>el.classList.remove('flash'),220);}
+  if(!callStart && k!=='x') return;
+  if(k==='1') load(idx+1);
+  else if(k==='2'){ $('buyText').textContent='“'+Q[idx].title+'” — by Korey Da Hitman Robinson.'; $('buyPanel').classList.add('open'); $('buyPanel').scrollIntoView({behavior:'smooth',block:'center'}); }
+  else if(k==='3'){ au.currentTime=0; au.play().catch(()=>{}); }
+  else if(k==='0'){ $('msgPanel').classList.toggle('open'); $('msgPanel').scrollIntoView({behavior:'smooth',block:'center'}); }
+}
+document.querySelectorAll('.key').forEach(b=>b.onclick=()=>key(b.dataset.k,b));
+document.addEventListener('keydown',e=>{ if(['0','1','2','3'].includes(e.key)) key(e.key,null); });
+if('mediaSession' in navigator){ navigator.mediaSession.setActionHandler('nexttrack',()=>load(idx+1)); navigator.mediaSession.setActionHandler('previoustrack',()=>load(idx-1)); }
+</script>
+</body>
+</html>
